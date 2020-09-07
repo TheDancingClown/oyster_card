@@ -22,4 +22,12 @@ describe Oystercard do
       expect(card.deduct(5)).to eq 25
     end
   end
+
+  describe "#touch_in" do
+    it "sets the card status to be on a journey" do
+      card = Oystercard.new(30)
+      card.touch_in
+      expect(card.in_journey).to eq true
+    end
+  end
 end
