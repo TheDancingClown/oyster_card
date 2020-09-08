@@ -37,5 +37,12 @@ describe Oystercard do
       card.touch_out
       expect(card.in_journey?).to be false
     end
+
+    it "raises an error after touch in method when balance is less than 1" do
+      card = Oystercard.new(0)
+      expect{card.touch_in}.to raise_error "Minimum amount to travel is £1"
+
+    end 
+
   end
 end
