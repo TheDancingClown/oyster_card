@@ -3,6 +3,7 @@ class Oystercard
 
   LIMIT = 90
   MINIMUM_BALANCE = 1
+  MINIMUM_CHARGE = 1
 
   def initialize(balance = 0)
     @balance = balance
@@ -12,10 +13,6 @@ class Oystercard
     fail "Card reached the GBP#{LIMIT} limit" if @balance + amount > LIMIT
     @balance += amount
   end
-
-  def deduct(amount)
-    @balance -= amount
-  end
   
   def touch_in
     raise "Minimum amount to travel is £1" if @balance < MINIMUM_BALANCE
@@ -23,10 +20,18 @@ class Oystercard
   end
 
   def touch_out
+    deduct(MINIMUM_CHARGE)
     @card_status = false
   end
   
   def in_journey?
     @card_status
   end
+
+private
+
+  def deduct(amount)
+    @balance -= amount
+  end
+
 end

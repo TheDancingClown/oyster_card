@@ -16,13 +16,6 @@ describe Oystercard do
     end
   end
 
-  describe "#deduct" do
-    it "deducts a specified amount" do
-      card = Oystercard.new(30)
-      expect(card.deduct(5)).to eq 25
-    end
-  end
-
   describe "#touch_in" do
     it "sets the card status to be on a journey" do
       card = Oystercard.new(30)
@@ -33,7 +26,6 @@ describe Oystercard do
     it "raises an error after touch in method when balance is less than 1" do
       card = Oystercard.new(0)
       expect{card.touch_in}.to raise_error "Minimum amount to travel is £1"
-
     end 
   end
 
@@ -45,11 +37,10 @@ describe Oystercard do
     end
 
     it "touching out will deduct minimum fare from the balance" do
-      card = Oystercard.new(30)
-      expect{card.touch_out}.to change{card.balance}.by(1)
+      subject.top_up(1)
+      subject.touch_in
+      expect{subject.touch_out}.to change{subject.balance}.by(-Oystercard::MINIMUM_CHARGE)
     end
-
-    
 
   end
 end
