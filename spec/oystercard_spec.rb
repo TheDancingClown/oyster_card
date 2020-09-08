@@ -3,10 +3,22 @@ require "oystercard"
 describe Oystercard do
 
   let(:entry_station){ double :station }
-  let(:exit_station){double :station  }
+  let(:exit_station) { double :station }
 
   it "has a default balance of 0" do
     expect(subject.balance).to eq 0
+  end
+  
+  it "checks that the card has an empty list of journeys by default" do
+  card = Oystercard.new(1)
+  expect(card.list_of_journeys).to be_empty
+  end
+
+  it "touching in and out creates one journey" do
+  card = Oystercard.new(1)
+  card.touch_in(entry_station)
+  card.touch_out(exit_station)
+  expect(card.list_of_journeys).not_to be_empty
   end
 
   describe "#top_up" do
