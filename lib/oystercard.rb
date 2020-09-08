@@ -17,16 +17,16 @@ class Oystercard
   
   def touch_in(station)
     raise "Minimum amount to travel is £1" if @balance < MINIMUM_BALANCE
-    @card_status = true
+    @entry_station = station
   end
 
   def touch_out
     deduct(MINIMUM_CHARGE)
-    @card_status = false
+    @entry_station = nil
   end
   
   def in_journey?
-    @card_status
+    !@entry_station.nil?
   end
 
 private
