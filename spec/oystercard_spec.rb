@@ -27,7 +27,15 @@ describe Oystercard do
     it "sets the card status to be on a journey" do
       card = Oystercard.new(30)
       card.touch_in
-      expect(card.in_journey).to eq true
+      expect(card.in_journey?).to be true
+    end
+  end
+
+  describe "#touch_out" do
+    it "sets the card status to NOT be on a journey" do
+      card = Oystercard.new(30)
+      card.touch_out
+      expect(card.in_journey?).to be false
     end
   end
 end
