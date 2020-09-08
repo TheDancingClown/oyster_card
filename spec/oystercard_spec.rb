@@ -27,6 +27,13 @@ describe Oystercard do
       card = Oystercard.new(0)
       expect{card.touch_in}.to raise_error "Minimum amount to travel is £1"
     end 
+
+    it "when card touches in record the entry point" do
+      subject.top_up(2)
+      station = double (:station)
+      subject.touch_in(station)
+      expect(subject.entry_station).to eq station
+      end
   end
 
   describe "#touch_out" do
@@ -35,6 +42,8 @@ describe Oystercard do
       card.touch_out
       expect(card.in_journey?).to be false
     end
+
+    
 
     it "touching out will deduct minimum fare from the balance" do
       subject.top_up(1)
