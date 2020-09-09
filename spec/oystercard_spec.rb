@@ -1,5 +1,4 @@
 require "oystercard"
-require "journey"
 
 describe Oystercard do
 
@@ -11,15 +10,15 @@ describe Oystercard do
   end
   
   it "checks that the card has an empty list of journeys by default" do
-  card = Oystercard.new(1)
-  expect(card.list_of_journeys).to be_empty
+    card = Oystercard.new(1)
+    expect(card.history).to be_empty
   end
 
   it "touching in and out creates one journey" do
-  card = Oystercard.new(1)
-  card.touch_in(entry_station)
-  card.touch_out(exit_station)
-  expect(card.list_of_journeys).not_to be_empty
+    card = Oystercard.new(1)
+    card.touch_in(entry_station)
+    card.touch_out(exit_station)
+    expect(card.history).not_to be_empty
   end
 
   describe "#top_up" do
@@ -45,11 +44,6 @@ describe Oystercard do
       expect{card.touch_in(entry_station)}.to raise_error "Minimum amount to travel is £1"
     end 
 
-    it "when card touches in record the entry point" do
-      subject.top_up(2)
-      subject.touch_in(entry_station)
-      expect(subject.entry_station).to eq entry_station
-      end
   end
 
   describe "#touch_out" do
@@ -70,21 +64,14 @@ describe Oystercard do
       subject.top_up(1)
       subject.touch_in(entry_station)
       subject.touch_out(exit_station)
-      expect(subject.entry_station).to eq nil
-    end
-
-    it "when card touches in record the entry point" do
-      subject.top_up(2)
-      subject.touch_in(entry_station)
-      subject.touch_out(exit_station)
-      expect(subject.exit_station).to eq exit_station
+      expect(subject.journey).to eq nil
     end
 
     it "Entry and exit stations added to journey list" do
       card = Oystercard.new(10)
       card.touch_in("Kings Cross")
       card.touch_out("Liverpool Street")
-      expect((card).list_of_journeys).to eq([{"Kings Cross" => "Liverpool Street"}])
+      expect(card.history).to eq([{"Kings Cross" => "Liverpool Street"}])
     end
 
   end

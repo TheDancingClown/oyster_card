@@ -1,7 +1,7 @@
-require 'journey'
+require_relative 'journey'
 
 class Oystercard
-  attr_reader :balance, :entry_station, :exit_station, :list_of_journeys, :journey
+  attr_reader :balance, :entry_station, :exit_station, :history, :journey
 
   LIMIT = 90
   MINIMUM_BALANCE = 1
@@ -9,7 +9,7 @@ class Oystercard
 
   def initialize(balance = 0)
     @balance = balance
-    @list_of_journeys = []
+    @history = []
   end
 
   def top_up(amount)
@@ -19,22 +19,17 @@ class Oystercard
   
   def touch_in(entry_station)
     @journey = Journey.new(entry_station)
-    @entry_station = entry_station
     raise "Minimum amount to travel is £1" if @balance < MINIMUM_BALANCE
   end
 
   def touch_out(exit_station)
-    
-    @entry_station = nil
-    @exit_station = exit_station
-    @list_of_journeys << @journey.finish(exit_station)
+    @history << @journey.finish(exit_station)
     deduct(journey.fare)
-   
-
+    @journey = nil
   end
   
   def in_journey?
-    !@entry_station.nil?
+    !@journey.nil?
   end
 
 private
