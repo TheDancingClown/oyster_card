@@ -18,10 +18,9 @@ class Oystercard
   end
   
   def touch_in(entry_station)
-    journey = Journey.new
-    journey.start(entrystation)
+    journey = Journey.new(entry_station)
 
-    # raise "Minimum amount to travel is £1" if @balance < MINIMUM_BALANCE
+    raise "Minimum amount to travel is £1" if @balance < MINIMUM_BALANCE
     # @entry_station = entry_station
     # @list_of_journeys << {entry_station: entry_station}
   end
