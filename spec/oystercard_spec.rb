@@ -1,4 +1,5 @@
 require "oystercard"
+require "journey"
 
 describe Oystercard do
 
@@ -54,6 +55,7 @@ describe Oystercard do
   describe "#touch_out" do
     it "sets the card status to NOT be on a journey" do
       card = Oystercard.new(30)
+      card.touch_in(entry_station)
       card.touch_out(exit_station)
       expect(card.in_journey?).to be false
     end
@@ -78,5 +80,13 @@ describe Oystercard do
       expect(subject.exit_station).to eq exit_station
       end
 
+    it "Entry and exit stations added to journey list" do
+      card = Oystercard.new(10)
+      card.touch_in("Kings Cross")
+      expect(card.touch_out("Liverpool Street")).to eq([{"Kings Cross" => "Liverpool Street"}])
+    end
+
   end
+
+  
 end

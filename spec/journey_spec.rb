@@ -1,4 +1,5 @@
 require 'journey'
+require 'oystercard'
 
 describe Journey do
   it 'initialises with a starting station' do
@@ -13,7 +14,23 @@ describe Journey do
     end
   end
 
+  
+describe 'fare' do
+  it "fare will whether check entry or exit stations are present" do
+    day_out = Journey.new("station")
+    day_out.end("exit")
+    expect(day_out.fare).not_to be_empty
+  end
 
+  it "fare will return minimum fare when both stations are present" do
+    card = Oystercard.new(10)
+    day_out = Journey.new("station")
+    day_out.instance_variable_set(:@trip, "Kings Cross" => "Liverpool")
+    
+    expect{day_out.fare}.to change{card.balance}.by(-1)
+
+    end
+  end
 
 end
 
