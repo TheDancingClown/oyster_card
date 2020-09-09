@@ -78,12 +78,13 @@ describe Oystercard do
       subject.touch_in(entry_station)
       subject.touch_out(exit_station)
       expect(subject.exit_station).to eq exit_station
-      end
+    end
 
     it "Entry and exit stations added to journey list" do
       card = Oystercard.new(10)
       card.touch_in("Kings Cross")
-      expect(card.touch_out("Liverpool Street")).to eq([{"Kings Cross" => "Liverpool Street"}])
+      card.touch_out("Liverpool Street")
+      expect((card).list_of_journeys).to eq([{"Kings Cross" => "Liverpool Street"}])
     end
 
   end
