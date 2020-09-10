@@ -1,16 +1,17 @@
 require_relative 'journey'
 
 class Oystercard
-  attr_reader :balance, :history, :journey
+  attr_reader :balance, :history, :journey, :journey_class
 
   LIMIT = 90
   MINIMUM_BALANCE = 1
   MINIMUM_CHARGE = 1
 
-  def initialize(balance = 0)
+  def initialize(balance = 0, journey_class = Journey)
     @balance = balance
     @history = []
-    @journey = Journey.new
+    @journey = nil
+    @journey_class = journey_class
   end
 
   def top_up(amount)
@@ -18,8 +19,8 @@ class Oystercard
     @balance += amount
   end
   
-  def touch_in(entry_station)
-    @journey.start(entry_station)
+  def touch_in(entry_station = nil )
+    @journey = journey_class.new(entry_station) 
     raise "Minimum amount to travel is £1" if @balance < MINIMUM_BALANCE
   end
 
@@ -38,5 +39,4 @@ private
   def deduct(amount)
     @balance -= amount
   end
-
 end
