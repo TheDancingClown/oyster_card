@@ -24,12 +24,21 @@ describe JourneyLog do
     it "starts a new journey with an entry station" do
       expect(subject).to respond_to(:start).with(1).argument
     end 
+
+    it "returns an entry station when #start is calles" do  
+      station = "Paddington"
+      expect(subject.start(station)).to include station
+  end 
   end 
 
   describe "#finish" do 
     it "finishes a journey and adds an exit station" do
       expect(subject).to respond_to(:finish).with(1).argument
     end 
-  end 
 
+    it "returns an exit station when called finish" do 
+      station = "Mayfair"
+      expect(subject.finish(station)).to include station
+    end 
+end 
 end
