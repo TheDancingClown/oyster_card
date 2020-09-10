@@ -19,4 +19,17 @@ describe JourneyLog do
       expect(subject.journey_class).to eq(Journey)
     end
   end
+
+  describe "#start" do 
+    it "starts a new journey with an entry station" do
+      expect(subject).to respond_to(:start).with(1).argument
+    end 
+  end 
+
+  describe "#finish" do 
+    it "finishes a journey and adds an exit station" do
+      expect(subject).to respond_to(:finish).with(1).argument
+    end 
+  end 
+
 end
