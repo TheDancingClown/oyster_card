@@ -10,7 +10,6 @@ class Oystercard
   def initialize(balance = 0, journey_class = Journey)
     @balance = balance
     @history = []
-    @journey = nil
     @journey_class = journey_class
   end
 
@@ -19,12 +18,12 @@ class Oystercard
     @balance += amount
   end
   
-  def touch_in(entry_station = nil )
+  def touch_in(entry_station = nil)
     @journey = journey_class.new(entry_station) 
     raise "Minimum amount to travel is £1" if @balance < MINIMUM_BALANCE
   end
 
-  def touch_out(exit_station)
+  def touch_out(exit_station = nil)
     @history << @journey.finish(exit_station)
     deduct(journey.fare)
     @journey = nil
